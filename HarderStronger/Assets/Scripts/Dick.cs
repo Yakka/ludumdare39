@@ -54,6 +54,16 @@ public class Dick : MonoBehaviour {
         }
     }
 
+    public void EnlargeSelectedSection() {
+        sectionsList[selectedSectionID].topVertice += Vector3.up * 0.1f;
+        sectionsList[selectedSectionID].bottomVertice += Vector3.down * 0.1f;
+    }
+
+    public void ShrinkSelectedSection() {
+        sectionsList[selectedSectionID].topVertice -= Vector3.up * 0.1f;
+        sectionsList[selectedSectionID].bottomVertice -= Vector3.down * 0.1f;
+    }
+
     public void UpdateSectionSelectionFeedback(int _id) {
         Color color;
         if(_id == selectedSectionID) {

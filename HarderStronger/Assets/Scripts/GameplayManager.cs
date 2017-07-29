@@ -21,5 +21,11 @@ public class GameplayManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.RightArrow)) {
             dick.SelectOnRight();
         }
+        if (Input.GetKeyUp(KeyCode.UpArrow)) {
+            dick.EnlargeSelectedSection();
+        }
+        if (Input.GetKeyUp(KeyCode.DownArrow)) {
+            dick.ShrinkSelectedSection();
+        }
     }
 }
