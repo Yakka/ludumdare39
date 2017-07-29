@@ -20,9 +20,10 @@ public class Dick : MonoBehaviour {
                 section.name = "Section (" + i + ")";
                 // Setting its coordinates
                 if (i > 0) {
-                    section.topVertice = sectionsList[i - 1].topVertice + gapBetweenTwoSections * Mathf.Cos(1);
-                    section.bottomVertice = sectionsList[i - 1].bottomVertice + gapBetweenTwoSections * Mathf.Sin(1);
-                    section.eulerAngle = Vector3.back;
+                    section.eulerAngle = Vector3.back * 30;
+                    section.pivot = sectionsList[i - 1].pivot + gapBetweenTwoSections * Mathf.Cos(sectionsList[i - 1].eulerAngle.magnitude);
+                    section.topVertice = section.pivot + Vector3.Cross(Vector3.forward, section.pivot).normalized * section.height / 2;
+                    section.topVertice = section.pivot - Vector3.Cross(Vector3.forward, section.pivot).normalized * section.height / 2;
                 }
                 // Adding to the list
                 sectionsList.Add(section);

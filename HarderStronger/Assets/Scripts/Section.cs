@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Section : MonoBehaviour {
 
-    public Vector3 topVertice, bottomVertice, eulerAngle = Vector3.zero;
+    public Vector3 topVertice, bottomVertice, eulerAngle, pivot = Vector3.zero;
     private Vector3 initialScale;
+    public float height = 1f;
 
 	void Start () {
         initialScale = transform.localScale;
 	}
 	
 	void Update () {
-        transform.position = (topVertice + bottomVertice) / 2f;
-        transform.localScale = initialScale + topVertice - bottomVertice;
+        transform.position = pivot;
+        transform.localScale = initialScale + topVertice + bottomVertice;
         transform.eulerAngles = eulerAngle;
 	}
 }
