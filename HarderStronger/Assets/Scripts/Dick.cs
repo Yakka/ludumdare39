@@ -24,12 +24,8 @@ public class Dick : MonoBehaviour {
             Debug.Log("Error: no section model, cannot instantiate the dick.");
         }
 	}
-	
-	void Update () {
-        Vector3 previousPosition = Vector3.zero;
-		foreach(Section section in sectionsList) {
-            Debug.DrawLine(previousPosition, section.transform.position);
-            previousPosition = section.transform.position;
-        }
-	}
+
+    public List<Section> GetSectionsList() {
+        return sectionsList;
+    }
 }
