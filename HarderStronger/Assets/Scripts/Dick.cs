@@ -6,7 +6,7 @@ public class Dick : MonoBehaviour {
     
     public Section sectionModel = null;
     public int amountOfSections = 5;
-    public Vector3 gapBetweenTwoSections = Vector3.left;
+    public float gapBetweenTwoSections = 1f;
 
     private List<Section> sectionsList = new List<Section>();
     private int selectedSectionID = 0;
@@ -21,9 +21,11 @@ public class Dick : MonoBehaviour {
                 // Setting its coordinates
                 if (i > 0) {
                     section.eulerAngle = Vector3.back * 30;
-                    section.pivot = sectionsList[i - 1].pivot + gapBetweenTwoSections * Mathf.Cos(sectionsList[i - 1].eulerAngle.magnitude);
-                    section.topVertice = section.pivot + Vector3.Cross(Vector3.forward, section.pivot).normalized * section.height / 2;
-                    section.topVertice = section.pivot - Vector3.Cross(Vector3.forward, section.pivot).normalized * section.height / 2;
+                    section.pivot = sectionsList[i - 1].pivot 
+                        + gapBetweenTwoSections * Mathf.Cos(sectionsList[i - 1].eulerAngle.magnitude) * Vector3.left
+                        - gapBetweenTwoSections * Mathf.Sin(sectionsList[i - 1].eulerAngle.magnitude) * Vector3.up;
+                    section.topVertice = section.pivot + Vector3.Cross(Vector3.forward, section.pivot).normalized * section.height / 2f;
+                    section.bottomVertice = section.pivot - Vector3.Cross(Vector3.forward, section.pivot).normalized * section.height / 2f;
                 }
                 // Adding to the list
                 sectionsList.Add(section);

@@ -14,7 +14,7 @@ public class Section : MonoBehaviour {
 	
 	void Update () {
         transform.position = pivot;
-        transform.localScale = initialScale + topVertice + bottomVertice;
+        transform.localScale = initialScale + topVertice - bottomVertice;
         transform.eulerAngles = eulerAngle;
 	}
 }
