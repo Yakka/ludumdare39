@@ -13,9 +13,12 @@ public class Dick : MonoBehaviour {
 	void Start () {
 		if(sectionModel != null) {
             for(int i = 0; i < amountOfSections; i++) {
+                Vector3 translation = Vector3.left * i * gapBetweenTwoSections;
                 Section section = Instantiate(sectionModel);
                 section.transform.parent = this.transform;
-                section.transform.Translate(Vector3.left * i * gapBetweenTwoSections);
+                section.topVertice = translation + Vector3.up;
+                section.topVertice = translation + Vector3.down;
+                section.eulerAngle = Vector3.forward * i;
                 section.name = "Section (" + i + ")";
 
                 sectionsList.Add(section);
