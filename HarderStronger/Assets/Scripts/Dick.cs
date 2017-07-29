@@ -94,18 +94,27 @@ public class Dick : MonoBehaviour {
 
     public void EnlargeSelectedSection() {
         anglesList[selectedSectionID] += Vector3.up * 0.1f;
-        sizesList[selectedSectionID] += sizeUp;
 
-        float dot = Vector3.Dot(anglesList[selectedSectionID], Vector3.up);
+        for (int i = selectedSectionID; i < anglesList.Count; i++) {
 
-        verticesList[selectedSectionID * 2] = Vector3.Cross(Vector3.back, anglesList[selectedSectionID]).normalized * sizesList[selectedSectionID] / 2f
-            + Vector3.left * selectedSectionID;
-        uvsList[selectedSectionID * 2] += Vector2.up * sizeUp;
+            sizesList[selectedSectionID] += sizeUp;
 
-        verticesList[selectedSectionID * 2 + 1] = Vector3.Cross(Vector3.forward, anglesList[selectedSectionID]).normalized * sizesList[selectedSectionID] / 2f
-            + Vector3.left * selectedSectionID;
-        uvsList[selectedSectionID * 2 + 1] += Vector2.down * sizeUp;
+            float dot = Vector3.Dot(anglesList[i], Vector3.up);
 
+            verticesList[i * 2] = Vector3.Cross(Vector3.back, anglesList[i]).normalized * sizesList[i] / 2f + Vector3.left * i;
+
+            verticesList[i * 2 + 1] = Vector3.Cross(Vector3.forward, anglesList[i]).normalized * sizesList[i] / 2f + Vector3.left * i;
+            
+            if (i > selectedSectionID) {
+                anglesList[i] += Vector3.up * anglesList[i - 1].y;
+                verticesList[i * 2] += Vector3.up * anglesList[i - 1].y;
+                verticesList[i * 2 + 1] += Vector3.up * anglesList[i - 1].y;
+            }
+
+            uvsList[i * 2] = new Vector2(verticesList[i * 2].x, verticesList[i * 2].y);
+
+            uvsList[i * 2 + 1] = new Vector2(verticesList[i * 2 + 1].x, verticesList[i * 2 + 1].y);
+        }
         UpdateDick();
     }
 
