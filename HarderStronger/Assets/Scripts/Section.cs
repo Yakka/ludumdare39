@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Section : MonoBehaviour {
 
-    public Vector3 topVertice, bottomVertice, eulerAngle;
+    public Vector3 topVertice, bottomVertice, eulerAngle = Vector3.zero;
 
 	void Start () {
 		

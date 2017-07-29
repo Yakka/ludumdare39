@@ -6,21 +6,25 @@ public class Dick : MonoBehaviour {
     
     public Section sectionModel = null;
     public int amountOfSections = 5;
-    public int gapBetweenTwoSections = 10;
+    public Vector3 gapBetweenTwoSections = Vector3.left;
 
     private List<Section> sectionsList = new List<Section>();
+    private int selectedSectionID = 0;
 
 	void Start () {
 		if(sectionModel != null) {
             for(int i = 0; i < amountOfSections; i++) {
-                Vector3 translation = Vector3.left * i * gapBetweenTwoSections;
+                // Setting the new game object
                 Section section = Instantiate(sectionModel);
                 section.transform.parent = this.transform;
-                section.topVertice = translation + Vector3.up;
-                section.topVertice = translation + Vector3.down;
-                section.eulerAngle = Vector3.forward * i;
                 section.name = "Section (" + i + ")";
-
+                // Setting its coordinates
+                if (i > 0) {
+                    section.topVertice = sectionsList[i - 1].topVertice + gapBetweenTwoSections * Mathf.Cos(1);
+                    section.bottomVertice = sectionsList[i - 1].bottomVertice + gapBetweenTwoSections * Mathf.Sin(1);
+                    section.eulerAngle = Vector3.back;
+                }
+                // Adding to the list
                 sectionsList.Add(section);
             }
         } else {
@@ -28,7 +32,35 @@ public class Dick : MonoBehaviour {
         }
 	}
 
+    public void Update() {
+        for(int i = 0; i < sectionsList.Count; i++) {
+            UpdateSectionSelectionFeedback(i);
+        }
+    }
+
     public List<Section> GetSectionsList() {
         return sectionsList;
+    }
+
+    public void SelectOnLeft() {
+        if(selectedSectionID + 1 < sectionsList.Count) {
+            selectedSectionID++;
+        }
+    }
+
+    public void SelectOnRight() {
+        if (selectedSectionID > 0) {
+            selectedSectionID--;
+        }
+    }
+
+    public void UpdateSectionSelectionFeedback(int _id) {
+        Color color;
+        if(_id == selectedSectionID) {
+            color = Color.red;
+        } else {
+            color = Color.white;
+        }
+        sectionsList[_id].GetComponent<MeshRenderer>().material.color = color;
     }
 }
