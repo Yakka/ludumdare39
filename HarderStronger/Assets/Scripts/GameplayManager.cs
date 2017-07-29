@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class GameplayManager : MonoBehaviour {
 
-    public Dick dick = null;
+    static private GameplayManager instance = null;
 
-	// Use this for initialization
-	void Start () {
-		if(dick == null) {
+    public Dick dick = null;
+    public int power = 100;
+
+    // Use this for initialization
+    void Start() {
+        instance = this;
+        if (dick == null) {
             Debug.Log("Error: no dick found.");
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(Input.GetKeyDown(KeyCode.LeftArrow)) {
+    }
+
+    // Update is called once per frame
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             dick.SelectOnLeft();
         }
         if (Input.GetKeyDown(KeyCode.RightArrow)) {
@@ -27,5 +31,9 @@ public class GameplayManager : MonoBehaviour {
         if (Input.GetKeyUp(KeyCode.DownArrow)) {
             dick.ShrinkSelectedSection();
         }
+    }
+
+    static public GameplayManager GetInstance() {
+        return instance;
     }
 }
