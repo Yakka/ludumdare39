@@ -96,7 +96,10 @@ public class Dick : MonoBehaviour {
 
     public void ShrinkSelectedSection() {
         verticesList[selectedSectionID * 2] -= Vector3.up * sizeUp;
+        uvsList[selectedSectionID * 2] -= Vector2.up * sizeUp;
+
         verticesList[selectedSectionID * 2 + 1] -= Vector3.down * sizeUp;
+        uvsList[selectedSectionID * 2 + 1] -= Vector2.down * sizeUp;
 
         UpdateDick();
     }
