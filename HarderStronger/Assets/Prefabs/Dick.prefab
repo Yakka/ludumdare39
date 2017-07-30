@@ -53,3 +53,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sectionModel: {fileID: 114822084803882706, guid: b0961926437e7e5479b23f654f8f54a4,
     type: 2}
+  amountOfSections: 15
+  gapBetweenTwoSections: 0.6

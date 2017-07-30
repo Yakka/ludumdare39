@@ -5,8 +5,8 @@ using UnityEngine;
 public class Dick : MonoBehaviour {
 
     public Section sectionModel = null;
-    public const int amountOfSections = 10;
-    public const float gapBetweenTwoSections = 0.7f;
+    public int amountOfSections = 10;
+    public float gapBetweenTwoSections = 0.7f;
 
     public void Start() {
         Transform parent = transform;
