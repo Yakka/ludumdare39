@@ -10,7 +10,7 @@ public class GameplayManager : MonoBehaviour {
     public int power;
     public const int powerCost = 10;
     public const int powerRefund = 5;
-    public const int powerMax = 100;
+    public const int powerMax = 1000;
 
     // Use this for initialization
     void Start() {
