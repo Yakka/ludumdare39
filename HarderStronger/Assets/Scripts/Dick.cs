@@ -35,7 +35,6 @@ public class Dick : MonoBehaviour {
         for (int i = 0; i < amountOfSections; i++) {
             // Pivots
             anglesList.Add(Vector3.left * gapBetweenTwoSections);
-            NormalizeAngles(i);
             sizesList.Add(initialHeight);
             shiftUp.Add(Vector3.zero);
 
@@ -47,11 +46,11 @@ public class Dick : MonoBehaviour {
             verticesList.Add(Vector3.zero);
             normalsList.Add(Vector3.back);
 
-            UpdateVerticesPair(i);
-
             // UVs
-            uvsList.Add(new Vector2(verticesList[i * 2].x, verticesList[i * 2].y));
-            uvsList.Add(new Vector2(verticesList[i * 2 + 1].x, verticesList[i * 2 + 1].y));
+            uvsList.Add(Vector3.zero);
+            uvsList.Add(Vector3.back);
+
+            UpdateVerticesPair(i);
 
             if (i > 0) {
                 // Upper triangle
@@ -103,18 +102,8 @@ public class Dick : MonoBehaviour {
                 float angle = Vector3.Angle(anglesList[i - 1], Vector3.left);
                 shiftUp[i] = shiftUp[i - 1] + Vector3.up * Mathf.Sin(angle);
             }
-            NormalizeAngles(i);
             UpdateVerticesPair(i);
 
-            if (i > selectedSectionID) {
-                /*anglesList[i] += Vector3.up * Mathf.Abs(anglesList[i - 1].y) * _factor;
-                NormalizeAngles(i);
-                verticesList[i * 2] += Vector3.up * Mathf.Abs(anglesList[i - 1].y) * sizesList[i] * _factor;
-                verticesList[i * 2 + 1] += Vector3.up * Mathf.Abs(anglesList[i - 1].y) * sizesList[i] * _factor;*/
-            }
-
-            uvsList[i * 2] = new Vector2(verticesList[i * 2].x, verticesList[i * 2].y);
-            uvsList[i * 2 + 1] = new Vector2(verticesList[i * 2 + 1].x, verticesList[i * 2 + 1].y);
         }
         UpdateDick();
     }
@@ -135,9 +124,6 @@ public class Dick : MonoBehaviour {
     }
 
     public void UpdateVerticesPair(int _i) {
-        // I guess this is where it fucks up
-        //verticesList[_i * 2] = (Vector3.Cross(Vector3.back, anglesList[_i]).normalized * sizesList[_i] / 2f + Vector3.left * _i) * gapBetweenTwoSections;
-        //verticesList[_i * 2 + 1] = (Vector3.Cross(Vector3.forward, anglesList[_i]).normalized * sizesList[_i] / 2f + Vector3.left * _i) * gapBetweenTwoSections;
         Vector3 previousAngle = Vector3.left;
         if(_i > 0) {
             previousAngle = anglesList[_i - 1];
@@ -145,9 +131,9 @@ public class Dick : MonoBehaviour {
 
         verticesList[_i * 2] = gapBetweenTwoSections * previousAngle.normalized + Vector3.Cross(Vector3.back, anglesList[_i]).normalized * sizesList[_i] / 2f + Vector3.left * _i + shiftUp[_i];
         verticesList[_i * 2 + 1] = gapBetweenTwoSections * previousAngle.normalized - Vector3.Cross(Vector3.back, anglesList[_i]).normalized * sizesList[_i] / 2f + Vector3.left * _i + shiftUp[_i];
-    }
 
-    public void NormalizeAngles(int _i) {
-        //anglesList[_i] = anglesList[_i].normalized;
+
+        uvsList[_i * 2] = new Vector2(verticesList[_i * 2].x, verticesList[_i * 2].y);
+        uvsList[_i * 2 + 1] = new Vector2(verticesList[_i * 2 + 1].x, verticesList[_i * 2 + 1].y);
     }
 }
