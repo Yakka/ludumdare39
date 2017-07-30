@@ -7,6 +7,7 @@ public class Section : MonoBehaviour {
     public const float angleBoost = 25f;
     public const int amountOfImpactedSections = 5;
     public float angleSpeed = 100f;
+    public const float maxAngle = 80f;
 
     public float lerpDuration = 0.5f;
     private float lerpCounter = 0f;
@@ -17,7 +18,7 @@ public class Section : MonoBehaviour {
 
     private float targetedAngle;
     private Quaternion targetedQuaternion;
-    private float initialAngle;
+    private float initialAngle = 0f;
 
     // Use this for initialization
     void Start () {
@@ -52,9 +53,18 @@ public class Section : MonoBehaviour {
     public void BoostAngle(float _angleBoost, int _index) {
         isRotating = true;
         lerpCounter = 0f;
-        initialAngle = transform.rotation.eulerAngles.z;
-        targetedAngle = _angleBoost * Mathf.Cos((0f + ((float)_index + 1f) / (float)amountOfImpactedSections) * Mathf.PI);
-        targetedQuaternion = Quaternion.AngleAxis(initialAngle + targetedAngle, Vector3.back);
+        if(_angleBoost > 0f) {
+            targetedAngle = _angleBoost * Mathf.Cos((0f + ((float)_index + 1f) / (float)amountOfImpactedSections) * Mathf.PI);
+        } else {
+            targetedAngle = _angleBoost;
+        }
+
+        targetedAngle += initialAngle;
+        targetedAngle = Mathf.Clamp(targetedAngle % 360, -maxAngle, maxAngle);
+        initialAngle = targetedAngle;
+
+        targetedQuaternion = Quaternion.AngleAxis(targetedAngle, Vector3.back);
+
         Section[] sectionChild = GetComponentsInChildren<Section>();
         
         if(sectionChild.Length > 1 && _index + 1 < amountOfImpactedSections) {
