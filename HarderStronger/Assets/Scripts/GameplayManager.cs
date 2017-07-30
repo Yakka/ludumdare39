@@ -23,22 +23,7 @@ public class GameplayManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            dick.SelectOnLeft();
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            dick.SelectOnRight();
-        }
-        if (Input.GetKeyUp(KeyCode.UpArrow)) {
-            if(power >= powerCost) {
-                dick.EnlargeSelectedSection();
-                power -= 10;
-            }
-        }
-        if (Input.GetKeyUp(KeyCode.DownArrow)) {
-            dick.ShrinkSelectedSection();
-            power = Mathf.Min(power + powerRefund, powerMax);
-        }
+        
     }
 
     static public GameplayManager GetInstance() {
