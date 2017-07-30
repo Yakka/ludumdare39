@@ -11,6 +11,10 @@ public class GameplayManager : MonoBehaviour {
     public int powerCost;
     public int powerRefund;
     public int powerMax;
+
+    public float timeToReload;
+    private float reloadingTimer = 0;
+    public int powerReload;
     
     public int powerPerBlood;
     public GameObject bloodModel;
@@ -36,6 +40,15 @@ public class GameplayManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if(power + powerReload < powerMax) {
+            reloadingTimer += Time.deltaTime;
+            if(reloadingTimer > timeToReload) {
+                reloadingTimer -= timeToReload;
+                power += powerReload;
+            }
+        }
+
+
         for(int i = 0; i < bloodsList.Count; i++) {
             if(power > i * powerPerBlood) {
                 bloodsList[i].SetActive(true);

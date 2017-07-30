@@ -352,11 +352,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748561db956fd384e8464fc5c6fcc6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 100
-  powerCost: 5
-  powerRefund: 5
-  powerMax: 80
-  powerPerBlood: 5
+  power: 16
+  powerCost: 1
+  powerRefund: 1
+  powerMax: 16
+  timeToReload: 5
+  powerReload: 1
+  powerPerBlood: 1
   bloodModel: {fileID: 394854470}
   bloodBarModel: {fileID: 912334603}
 --- !u!1 &680638167
