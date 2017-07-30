@@ -8,12 +8,12 @@ public class Dick : MonoBehaviour {
 
     public GameObject head;
 
-    public Vector3 maxAngle = new Vector3(1f, 0.1f, 0);
+    public Vector3 maxAngle = new Vector3(-1f, 1f, 0f);
     public const int amountOfSections = 10;
     public float gapBetweenTwoSections = 0.1f; // Doesn't work for some reasons
 
-    public const float sizeUp = 0.1f;
-    public const float angleUp = 0.05f;
+    public const float sizeUp = 0.01f;
+    public const float angleUp = 5f;
     public const float initialHeight = 0.7f;
     
     private int selectedSectionID = 0;
@@ -22,7 +22,7 @@ public class Dick : MonoBehaviour {
     private List<int> trianglesList = new List<int>();
     private List<Vector3> normalsList = new List<Vector3>();
     private List<Vector2> uvsList = new List<Vector2>();
-    private List<Vector3> anglesList = new List<Vector3>();
+    private List<Vector3> anglesList = new List<Vector3>(); //Angles in radian
     private List<float> sizesList = new List<float>();
     private List<Vector3> shiftUp = new List<Vector3>();
     private Mesh mesh = null;
@@ -98,9 +98,18 @@ public class Dick : MonoBehaviour {
 
         for (int i = selectedSectionID; i < anglesList.Count; i++) {
             anglesList[i] += deltaAngle * Mathf.PI / 180f;
+            // Security to keep low angles:
+            if(Vector3.Angle(Vector3.left, anglesList[i]) > Vector3.Angle(Vector3.left, maxAngle)) {
+                if(anglesList[i].y > 0f) {
+                    anglesList[i] = maxAngle;
+                } else {
+                    anglesList[i] = new Vector3(anglesList[i].x, -anglesList[i].y, 0f);
+                }
+            }
+            // Impacting the next sections:
             if (i > selectedSectionID) {
-                float angle = Vector3.Angle(anglesList[i - 1], Vector3.left);
-                shiftUp[i] = shiftUp[i - 1] + Vector3.up * Mathf.Sin(angle);
+                float angle = Vector3.Angle(Vector3.left, anglesList[i - 1]) * _factor;
+                shiftUp[i] = shiftUp[i - 1] + Vector3.up * Mathf.Sin(angle * Mathf.PI / 180f) * gapBetweenTwoSections;
             }
             UpdateVerticesPair(i);
 
