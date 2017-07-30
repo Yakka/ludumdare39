@@ -1,29 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameplayManager : MonoBehaviour {
 
     static private GameplayManager instance = null;
-
-    public Dick dick = null;
+    
     public int power;
-    public const int powerCost = 10;
-    public const int powerRefund = 5;
-    public const int powerMax = 1000;
+    public int powerCost = 10;
+    public int powerRefund = 5;
+    public int powerMax = 80;
+    
+    public int powerPerBlood = 10;
+    public GameObject bloodModel;
+    public GameObject bloodBarModel;
+    private List<GameObject> bloodsList = new List<GameObject>();
 
     // Use this for initialization
     void Start() {
         instance = this;
         power = powerMax;
-        if (dick == null) {
-            Debug.Log("Error: no dick found.");
+        bloodsList.Add(bloodModel);
+        for(int i = 1; i < powerMax / powerPerBlood; i++) {
+            GameObject blood = Instantiate(bloodModel);
+            blood.name = "Blood (" + i + ")";
+            blood.transform.SetParent(bloodBarModel.transform);
+            Image image = blood.GetComponent<Image>();
+            image.rectTransform.localPosition = bloodModel.GetComponent<Image>().rectTransform.localPosition;
+            image.rectTransform.Translate(Vector3.up * (image.rectTransform.rect.height + 1f) * i);
+
+            bloodsList.Add(blood);
         }
     }
 
     // Update is called once per frame
     void Update() {
-        
+        for(int i = 0; i < bloodsList.Count; i++) {
+            if(power > i * powerPerBlood) {
+                bloodsList[i].SetActive(true);
+            } else {
+                bloodsList[i].SetActive(false);
+            }
+        }
     }
 
     static public GameplayManager GetInstance() {

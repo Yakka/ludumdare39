@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Blood
+    uniqueID: 3517774649
+    locked: 0
+  - name: BloodBar
+    uniqueID: 1463834417
+    locked: 0

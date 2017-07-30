@@ -41,11 +41,20 @@ public class Section : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
         if(Input.GetMouseButtonDown(0) && hit.collider != null) {
             if (hit.collider.name == name) {
-                BoostAngle(angleBoost, 0);
+                if(GameplayManager.GetInstance().power >= GameplayManager.GetInstance().powerCost) {
+                    BoostAngle(angleBoost, 0);
+                    GameplayManager.GetInstance().power -= GameplayManager.GetInstance().powerCost;
+                }
+                
             }
         } else if(Input.GetMouseButtonDown(1) && hit.collider != null) {
             if (hit.collider.name == name) {
                 BoostAngle(-angleBoost, 0);
+                
+                if (GameplayManager.GetInstance().power < GameplayManager.GetInstance().powerMax) {
+                    GameplayManager.GetInstance().power = Mathf.Min(GameplayManager.GetInstance().powerMax, 
+                        GameplayManager.GetInstance().power + GameplayManager.GetInstance().powerRefund);
+                }
             }
         }
     }
