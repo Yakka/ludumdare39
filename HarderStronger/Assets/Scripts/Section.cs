@@ -6,6 +6,7 @@ public class Section : MonoBehaviour {
     
     public const float maxAngle = 45f;
     public const float angleBoost = 5f;
+    public const int amountOfImpactedSections = 5;
 
     public bool isHead = false;
     public Sprite headSprite = null;
@@ -22,23 +23,27 @@ public class Section : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
         if(Input.GetMouseButtonDown(0) && hit.collider != null) {
             if (hit.collider.name == name) {
-                BoostAngle(angleBoost);
+                BoostAngle(angleBoost, 0);
             }
         } else if(Input.GetMouseButtonDown(1) && hit.collider != null) {
             if (hit.collider.name == name) {
-                BoostAngle(-angleBoost);
+                BoostAngle(-angleBoost, 0);
             }
         }
     }
 
-    public void BoostAngle(float _angleBoost) {        
-        transform.Rotate(Vector3.back * _angleBoost);
+    public void BoostAngle(float _angleBoost, int _index) {
+        float finalAngle;
+        finalAngle = _angleBoost * Mathf.Cos((0f + ((float)_index + 1f) / (float)amountOfImpactedSections) * Mathf.PI);
 
-        Section sectionChild = GetComponentInChildren<Section>();
+        transform.Rotate(Vector3.back * finalAngle);
 
-        if(sectionChild != null) {
-            //sectionChild.BoostAngle(-_angleBoost / 2f);
+        Section[] sectionChild = GetComponentsInChildren<Section>();
+        
+        if(sectionChild.Length > 1 && _index + 1 < amountOfImpactedSections) {
+            sectionChild[1].BoostAngle(_angleBoost, _index + 1);
         }
+        
 
     }
 }
