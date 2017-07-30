@@ -22,6 +22,10 @@ public class Section : MonoBehaviour {
 
     private bool hasCost;
 
+    public Sprite spriteWhite;
+    public Sprite spritePink;
+    public GameObject targetUI;
+
     // Use this for initialization
     void Start () {
         if (isHead) {
@@ -41,8 +45,10 @@ public class Section : MonoBehaviour {
 
 
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        if(Input.GetMouseButtonDown(0) && hit.collider != null) {
-            if (hit.collider.name == name) {
+        if (hit.collider != null && hit.collider.name == name) {
+            targetUI.SetActive(true);
+            
+            if (Input.GetMouseButtonDown(0)) {
                 if(GameplayManager.GetInstance().power >= GameplayManager.GetInstance().powerCost) {
                     BoostAngle(angleBoost, 0);
                     if(hasCost) {
@@ -50,18 +56,20 @@ public class Section : MonoBehaviour {
                     }
                 }
                 
-            }
-        } else if(Input.GetMouseButtonDown(1) && hit.collider != null) {
-            if (hit.collider.name == name) {
-                BoostAngle(-angleBoost, 0);
-                
-                if (GameplayManager.GetInstance().power < GameplayManager.GetInstance().powerMax) {
-                    if (hasCost) {
-                        GameplayManager.GetInstance().power = Mathf.Min(GameplayManager.GetInstance().powerMax,
-                            GameplayManager.GetInstance().power + GameplayManager.GetInstance().powerRefund);
+            } else if (Input.GetMouseButtonDown(1) && hit.collider) {
+                if (hit.collider.name == name) {
+                    BoostAngle(-angleBoost, 0);
+
+                    if (GameplayManager.GetInstance().power < GameplayManager.GetInstance().powerMax) {
+                        if (hasCost) {
+                            GameplayManager.GetInstance().power = Mathf.Min(GameplayManager.GetInstance().powerMax,
+                                GameplayManager.GetInstance().power + GameplayManager.GetInstance().powerRefund);
+                        }
                     }
                 }
             }
+        } else {
+            targetUI.SetActive(false);
         }
     }
 

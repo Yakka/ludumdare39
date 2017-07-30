@@ -356,7 +356,7 @@ MonoBehaviour:
   powerCost: 1
   powerRefund: 1
   powerMax: 16
-  timeToReload: 5
+  timeToReload: 1
   powerReload: 1
   powerPerBlood: 1
   bloodModel: {fileID: 394854470}
