@@ -97,7 +97,7 @@ public class Dick : MonoBehaviour {
         sizesList[selectedSectionID] += sizeUp * _factor;
 
         for (int i = selectedSectionID; i < anglesList.Count; i++) {
-            anglesList[i] += deltaAngle * Mathf.PI / 180f;
+            anglesList[i] += deltaAngle * Mathf.PI / 180f * Mathf.Max(3 + selectedSectionID - i, 0);
             // Security to keep low angles:
             if(Vector3.Angle(Vector3.left, anglesList[i]) > Vector3.Angle(Vector3.left, maxAngle)) {
                 if(anglesList[i].y > 0f) {
