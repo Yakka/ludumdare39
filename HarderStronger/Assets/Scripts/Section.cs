@@ -20,6 +20,8 @@ public class Section : MonoBehaviour {
     private Quaternion targetedQuaternion;
     private float initialAngle = 0f;
 
+    private bool hasCost;
+
     // Use this for initialization
     void Start () {
         if (isHead) {
@@ -43,7 +45,9 @@ public class Section : MonoBehaviour {
             if (hit.collider.name == name) {
                 if(GameplayManager.GetInstance().power >= GameplayManager.GetInstance().powerCost) {
                     BoostAngle(angleBoost, 0);
-                    GameplayManager.GetInstance().power -= GameplayManager.GetInstance().powerCost;
+                    if(hasCost) {
+                        GameplayManager.GetInstance().power -= GameplayManager.GetInstance().powerCost;
+                    }
                 }
                 
             }
@@ -52,8 +56,10 @@ public class Section : MonoBehaviour {
                 BoostAngle(-angleBoost, 0);
                 
                 if (GameplayManager.GetInstance().power < GameplayManager.GetInstance().powerMax) {
-                    GameplayManager.GetInstance().power = Mathf.Min(GameplayManager.GetInstance().powerMax, 
-                        GameplayManager.GetInstance().power + GameplayManager.GetInstance().powerRefund);
+                    if (hasCost) {
+                        GameplayManager.GetInstance().power = Mathf.Min(GameplayManager.GetInstance().powerMax,
+                            GameplayManager.GetInstance().power + GameplayManager.GetInstance().powerRefund);
+                    }
                 }
             }
         }
@@ -70,6 +76,7 @@ public class Section : MonoBehaviour {
 
         targetedAngle += initialAngle;
         targetedAngle = Mathf.Clamp(targetedAngle % 360, -maxAngle, maxAngle);
+        hasCost = targetedAngle != initialAngle;
         initialAngle = targetedAngle;
 
         targetedQuaternion = Quaternion.AngleAxis(targetedAngle, Vector3.back);

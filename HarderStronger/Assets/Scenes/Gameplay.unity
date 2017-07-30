@@ -140,8 +140,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 8}
-  m_SizeDelta: {x: 28, y: 46}
+  m_AnchoredPosition: {x: 0, y: 10}
+  m_SizeDelta: {x: 28, y: 22}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &394854472
 MonoBehaviour:
@@ -352,9 +352,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748561db956fd384e8464fc5c6fcc6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dick: {fileID: 0}
   power: 100
-  powerPerBlood: 10
+  powerCost: 5
+  powerRefund: 5
+  powerMax: 80
+  powerPerBlood: 5
   bloodModel: {fileID: 394854470}
   bloodBarModel: {fileID: 912334603}
 --- !u!1 &680638167

@@ -8,11 +8,11 @@ public class GameplayManager : MonoBehaviour {
     static private GameplayManager instance = null;
     
     public int power;
-    public int powerCost = 10;
-    public int powerRefund = 5;
-    public int powerMax = 80;
+    public int powerCost;
+    public int powerRefund;
+    public int powerMax;
     
-    public int powerPerBlood = 10;
+    public int powerPerBlood;
     public GameObject bloodModel;
     public GameObject bloodBarModel;
     private List<GameObject> bloodsList = new List<GameObject>();
@@ -28,7 +28,7 @@ public class GameplayManager : MonoBehaviour {
             blood.transform.SetParent(bloodBarModel.transform);
             Image image = blood.GetComponent<Image>();
             image.rectTransform.localPosition = bloodModel.GetComponent<Image>().rectTransform.localPosition;
-            image.rectTransform.Translate(Vector3.up * (image.rectTransform.rect.height + 1f) * i);
+            image.rectTransform.Translate(Vector3.up * (image.rectTransform.rect.height + 2f) * i);
 
             bloodsList.Add(blood);
         }
