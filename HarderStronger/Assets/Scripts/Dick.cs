@@ -97,9 +97,10 @@ public class Dick : MonoBehaviour {
         sizesList[selectedSectionID] += sizeUp * _factor;
 
         for (int i = selectedSectionID; i < anglesList.Count; i++) {
-            anglesList[i] += deltaAngle * Mathf.PI / 180f * Mathf.Max(3 + selectedSectionID - i, 0);
+            Vector3 finalDeltaAngle = deltaAngle * Mathf.PI / 180f * Mathf.Max(3 + selectedSectionID - i, 0);
+            anglesList[i] += finalDeltaAngle;
             // Security to keep low angles:
-            if(Vector3.Angle(Vector3.left, anglesList[i]) > Vector3.Angle(Vector3.left, maxAngle)) {
+            if (Vector3.Angle(Vector3.left, anglesList[i]) > Vector3.Angle(Vector3.left, maxAngle)) {
                 if(anglesList[i].y > 0f) {
                     anglesList[i] = maxAngle;
                 } else {
@@ -108,8 +109,9 @@ public class Dick : MonoBehaviour {
             }
             // Impacting the next sections:
             if (i > selectedSectionID) {
-                float angle = Vector3.Angle(Vector3.left, anglesList[i - 1]) * _factor;
-                shiftUp[i] = shiftUp[i - 1] + Vector3.up * Mathf.Sin(angle * Mathf.PI / 180f) * gapBetweenTwoSections;
+                float angle = Vector3.Angle(Vector3.left, finalDeltaAngle);
+                // shiftUp[i] = shiftUp[i - 1] + Vector3.up * Mathf.Sin(angle * Mathf.PI / 180f) * gapBetweenTwoSections;
+                shiftUp[i] += Vector3.up * Mathf.Cos(angle * Mathf.PI / 180f) * gapBetweenTwoSections;
             }
             UpdateVerticesPair(i);
 
